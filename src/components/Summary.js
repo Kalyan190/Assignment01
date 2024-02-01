@@ -17,7 +17,10 @@ const Summary = () => {
   if (!show) {
     return <div className='loading'><h1>Loading...</h1></div>;
   }
-
+  const extractTextFromHTML = htmlString => {
+    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+    return doc.body.textContent || "";
+  };
   const handleBookTicket = () => {
     // Navigate to BookingForm with the show ID
     history(`/book/${id}`);
@@ -30,7 +33,7 @@ const Summary = () => {
       <img src={show.image && show.image.medium} alt={show.name} />
       <div className='summary'>
       <h1>{show.name}</h1>
-      <p>{show.summary}</p>
+      <p>{extractTextFromHTML(show.summary)}</p>
       <button onClick={handleBookTicket}>Book Ticket</button>
       <br />
       <div className='back'>
